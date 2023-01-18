@@ -1,0 +1,45 @@
+---
+title: "d-seperation 1"
+format: html
+editor: visual
+---
+
+# d-seperation
+
+## Definition
+
+Two variables are said to be d-separated if all paths between them are blocked (otherwise they are d-connected). Two sets of variables are said to be d-separated if each variable in the first set is d-separated from every variable in the second set.
+
+##Rules: When is a path blocked?
+
+1.  If there are no variables being conditioned on, a path is blocked if and only if two arrowheads on the path collide at somevariable on the path.
+2.  Any path that contains a noncollider that has been conditioned on is blocked.
+3.  A collider that has been conditioned on does not block a path.
+4.  A collider that has a descendant that has been conditioned on does not block a path.
+
+## Example
+
+If we measure the weather, the path between weather and sleep is blocked by the collider Mood (rule 1)
+
+If we measure the weather, Mood and Outfit are conditionally independent, given weather (rule 2)
+
+If we measure the Mood, the weather is conditionally independent of productivity, given Mood (rule 2)
+
+Weather and sleep are d-connected, given Mood (rule 3)
+
+If we condition on productivity, weather and sleep are also d-connected (rule 4)
+
+```{r dag3}
+library (dagitty)
+dag3 <- dagitty("dag {
+  Sleep -> Mood
+  Weather -> Mood
+  Mood ->Productivity
+  Weather -> Outfit
+ }")
+plot( graphLayout( dag3 ) )
+library(ggdag)
+tidy_dag3 <- tidy_dagitty(dag3)
+ggdag(tidy_dag3) +
+  theme_dag()
+```
