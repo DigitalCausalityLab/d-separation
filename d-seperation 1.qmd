@@ -13,8 +13,62 @@ Two variables are said to be d-separated if all paths between them are blocked (
 ##Rules: When is a path blocked?
 
 1.  If there are no variables being conditioned on, a path is blocked if and only if two arrowheads on the path collide at somevariable on the path.
+```{r dag 1}
+library(ggdag)
+dag_confound_ggdag <- dagify(
+  Unfall ~ Drivingskills + Alkohol
+)
+# Plot the DAG
+ggdag(dag_confound_ggdag, layout = "circle") + theme_dag_blank()
+
+
+```
+
 2.  Any path that contains a noncollider that has been conditioned on is blocked.
+Example: We condition on stomach acidity
+```{r}
+library(ggdag)
+dag3_confound_ggdag <- dagify(
+c ~ b,
+b ~ a,
+coords = list(x = c(a = 1, b = 2, c = 3),
+                y = c(a = 1, b = 1, c = 1))
+)
+# Plot the DAG
+ggdag(dag3_confound_ggdag) + theme_dag_blank()
+```
+Beispiel:
+B = Blutucker
+M = Magensäure
+H = Hunger
+
+Der Blutzuckerspiegel beeinflusst die Übersäuerung im Magen, welche wiederum ein Hungergefühl verursacht.
+Wenn wir den Pfad zwischen dem Blutzuckerspiegel und dem Hunger unter der Bedingung von einer Magenübersäuerung betrachten, ist dieser Pfad blockiert.
+```{r}
+library(ggdag)
+dag2_confound_ggdag <- dagify(
+  H ~ M,
+  M ~ B,
+   coords = list(x = c(B = 1, M = 2, H = 3),
+                y = c(B = 1, M = 1, H = 1))
+)
+# Plot the DAG
+ggdag(dag2_confound_ggdag) + theme_dag_blank()
+```
+
 3.  A collider that has been conditioned on does not block a path.
+```{r}
+library(ggdag)
+dag_confound_ggdag <- dagify(
+  Unfall ~ Drivingskills + Alkohol
+)
+# Plot the DAG
+ggdag(dag_confound_ggdag) + theme_dag_blank()
+  coords = list(x = c(Alkohol = 1, Unfall = 2, Drivingskills = 3),
+                y = c(Alkohol = 1, Unfall = 2, Drivingskills = 1))
+
+```
+
 4.  A collider that has a descendant that has been conditioned on does not block a path.
 
 ## Example
