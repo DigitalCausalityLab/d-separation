@@ -106,27 +106,27 @@ ggdag(dag7_confound_ggdag) + theme_dag_blank()
 
 ## Example
 
-If we measure the weather, the path between weather and sleep is blocked by the collider Mood (rule 1)
-
-If we measure the weather, Mood and Outfit are conditionally independent, given weather (rule 2)
-
-If we measure the Mood, the weather is conditionally independent of productivity, given Mood (rule 2)
-
-Weather and sleep are d-connected, given Mood (rule 3)
-
-If we condition on productivity, weather and sleep are also d-connected (rule 4)
-
-```{r dag3}
-library (dagitty)
-dag9 <- dagitty("dag {
-  Sleep -> Mood
-  Weather -> Mood
-  Mood ->Productivity
-  Weather -> Outfit
- }")
-plot( graphLayout( dag9 ) )
-library(ggdag)
-tidy_dag9 <- tidy_dagitty(dag9)
-ggdag(tidy_dag9) +
-  theme_dag()
+What sets of variables d-seperate the nonadjacent nodes in this DAG?
+```{r}
+dag8_confound_ggdag <- dagify(
+ X ~ Z1 + Z3,
+ Z3 ~ Z1 + Z2,
+ W ~ X,
+ Y ~ W + Z2 + Z3,
+ coords = list(x = c(X = 1, Z1 = 1, Z3 = 2, W = 2, Z2 = 3, Y = 3),
+                y = c(X = 1, Z1 = 3, Z3 = 2, W = 1, Z2 = 3, Y = 1))
+)
+# Plot the DAG
+ggdag(dag8_confound_ggdag) + theme_dag_blank()
 ```
+
+Z1 ⊥⊥ Z2\
+X ⊥⊥ Y \| W, Z3, Z1\
+oder W ⊥⊥ Y \| Z1, Z2\
+W ⊥⊥ Z2 \| Z1, Z3\
+W ⊥⊥ Z2 \| X\
+W ⊥⊥ Z3 \| X\
+W ⊥⊥ Z1 \| X\
+Z1 ⊥⊥ Y \|Z3, X, Z2\
+oder\
+Z1 ⊥⊥ Y \| Z3, W, Z2
