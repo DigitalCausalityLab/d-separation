@@ -168,20 +168,42 @@ Attache Paket: 'ggdag'</code></pre>
 <p><img src="d-seperation-1_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+</section>
+<section id="regression" class="level3">
+<h3 class="anchored" data-anchor-id="regression">Regression:</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># set number of observations</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.05</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>U <span class="ot">&lt;-</span> <span class="fl">0.01</span> <span class="sc">+</span> <span class="fl">0.3</span><span class="sc">*</span>A <span class="sc">+</span> <span class="fl">0.1</span> <span class="sc">*</span> D <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(U <span class="sc">~</span> A <span class="sc">+</span> D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = U ~ A + D)
+
+Coefficients:
+(Intercept)            A            D  
+   0.004821     0.318218     0.109178  </code></pre>
+</div>
+</div>
 <ol start="2" type="1">
 <li>Any path that contains a noncollider that has been conditioned on is blocked. The path between A and C is blocked, conditioning on B.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>dag3_confound_ggdag <span class="ot">&lt;-</span> <span class="fu">dagify</span>(</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>C <span class="sc">~</span> B,</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>B <span class="sc">~</span> A,</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="at">coords =</span> <span class="fu">list</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="at">A =</span> <span class="dv">1</span>, <span class="at">B =</span> <span class="dv">2</span>, <span class="at">C =</span> <span class="dv">3</span>),</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">y =</span> <span class="fu">c</span>(<span class="at">A =</span> <span class="dv">1</span>, <span class="at">B =</span> <span class="dv">1</span>, <span class="at">C =</span> <span class="dv">1</span>))</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the DAG</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdag</span>(dag3_confound_ggdag) <span class="sc">+</span> <span class="fu">theme_dag_blank</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>dag3_confound_ggdag <span class="ot">&lt;-</span> <span class="fu">dagify</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>C <span class="sc">~</span> B,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>B <span class="sc">~</span> A,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="at">coords =</span> <span class="fu">list</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="at">A =</span> <span class="dv">1</span>, <span class="at">B =</span> <span class="dv">2</span>, <span class="at">C =</span> <span class="dv">3</span>),</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">y =</span> <span class="fu">c</span>(<span class="at">A =</span> <span class="dv">1</span>, <span class="at">B =</span> <span class="dv">1</span>, <span class="at">C =</span> <span class="dv">1</span>))</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the DAG</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdag</span>(dag3_confound_ggdag) <span class="sc">+</span> <span class="fu">theme_dag_blank</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="d-seperation-1_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+<p><img src="d-seperation-1_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -192,95 +214,85 @@ Attache Paket: 'ggdag'</code></pre>
 <strong>H = Hunger</strong></p>
 <p>Der Blutzuckerspiegel beeinflusst die Übersäuerung im Magen, welche wiederum ein Hungergefühl verursacht. Wenn wir den Pfad zwischen dem Blutzuckerspiegel und dem Hunger unter der Bedingung von einer Magenübersäuerung betrachten, ist dieser Pfad blockiert. Wir können keine Assoziation zwischen dem Blutzuckerspiegel und Hunger feststellen.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>dag4_confound_ggdag <span class="ot">&lt;-</span> <span class="fu">dagify</span>(</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  H <span class="sc">~</span> M,</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  M <span class="sc">~</span> B,</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>   <span class="at">coords =</span> <span class="fu">list</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="at">B =</span> <span class="dv">1</span>, <span class="at">M =</span> <span class="dv">2</span>, <span class="at">H =</span> <span class="dv">3</span>),</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">y =</span> <span class="fu">c</span>(<span class="at">B =</span> <span class="dv">1</span>, <span class="at">M =</span> <span class="dv">1</span>, <span class="at">H =</span> <span class="dv">1</span>))</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the DAG</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdag</span>(dag4_confound_ggdag) <span class="sc">+</span> <span class="fu">theme_dag_blank</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="d-seperation-1_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<ol start="3" type="1">
-<li>A collider that has been conditioned on does not block a path. If we condition on C, the path between A and B is not blocked. They are d-connected.</li>
-</ol>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>dag5_confound_ggdag <span class="ot">&lt;-</span> <span class="fu">dagify</span>(</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a> C <span class="sc">~</span> A <span class="sc">+</span> B</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the DAG</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdag</span>(dag5_confound_ggdag, <span class="at">layout =</span> <span class="st">"circle"</span>) <span class="sc">+</span> <span class="fu">theme_dag_blank</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dag4_confound_ggdag <span class="ot">&lt;-</span> <span class="fu">dagify</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  H <span class="sc">~</span> M,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  M <span class="sc">~</span> B,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>   <span class="at">coords =</span> <span class="fu">list</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="at">B =</span> <span class="dv">1</span>, <span class="at">M =</span> <span class="dv">2</span>, <span class="at">H =</span> <span class="dv">3</span>),</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">y =</span> <span class="fu">c</span>(<span class="at">B =</span> <span class="dv">1</span>, <span class="at">M =</span> <span class="dv">1</span>, <span class="at">H =</span> <span class="dv">1</span>))</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the DAG</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdag</span>(dag4_confound_ggdag) <span class="sc">+</span> <span class="fu">theme_dag_blank</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="d-seperation-1_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Durch die Konditionierung auf “Unfall” ist der Pfad zwischen Drivingskills und Alkohol nicht mehr blockiert.</p>
+<ol start="3" type="1">
+<li><p>A collider that has been conditioned on does not block a path.</p>
+<p>If we condition on C, the path between A and B is not blocked. They are d-connected.</p></li>
+</ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dag6_confound_ggdag <span class="ot">&lt;-</span> <span class="fu">dagify</span>(</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  U <span class="sc">~</span> D <span class="sc">+</span> A</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the DAG</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdag</span>(dag6_confound_ggdag, <span class="at">layout =</span> <span class="st">"circle"</span>) <span class="sc">+</span> <span class="fu">theme_dag_blank</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>dag5_confound_ggdag <span class="ot">&lt;-</span> <span class="fu">dagify</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a> C <span class="sc">~</span> A <span class="sc">+</span> B</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the DAG</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdag</span>(dag5_confound_ggdag, <span class="at">layout =</span> <span class="st">"circle"</span>) <span class="sc">+</span> <span class="fu">theme_dag_blank</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="d-seperation-1_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<pre><code>
-::: {.cell}
-
-```{.r .cell-code}
-n &lt;- 1000
-
-A &lt;- rnorm(n, 0, 1)
-U &lt;- 1 + 0.2*A + rnorm(n, 0, 1)
-lm (U ~ A)</code></pre>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Call:
-lm(formula = U ~ A)
-
-Coefficients:
-(Intercept)            A  
-     1.0199       0.1744  </code></pre>
-</div>
-<p>:::</p>
+<p>Durch die Konditionierung auf “Unfall” ist der Pfad zwischen Drivingskills und Alkohol nicht mehr blockiert.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>DGP_confound <span class="ot">&lt;-</span> <span class="cf">function</span>(n) {</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  L <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  A <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="sc">+</span> <span class="dv">1</span> <span class="sc">*</span> L <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  Y <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span> <span class="sc">*</span> A <span class="sc">+</span> <span class="dv">1</span> <span class="sc">*</span> L <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Y, A, L)</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(df)</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dag6_confound_ggdag <span class="ot">&lt;-</span> <span class="fu">dagify</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  U <span class="sc">~</span> D <span class="sc">+</span> A</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the DAG</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdag</span>(dag6_confound_ggdag, <span class="at">layout =</span> <span class="st">"circle"</span>) <span class="sc">+</span> <span class="fu">theme_dag_blank</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="d-seperation-1_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
 </div>
 <ol start="4" type="1">
 <li>A collider that has a descendant that has been conditioned on does not block a path.</li>
 </ol>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggdag)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>dag7_confound_ggdag <span class="ot">&lt;-</span> <span class="fu">dagify</span>(</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a> C <span class="sc">~</span> A <span class="sc">+</span> B,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a> D <span class="sc">~</span>C,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a> <span class="at">coords =</span> <span class="fu">list</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="at">B =</span> <span class="dv">1</span>, <span class="at">C =</span> <span class="dv">2</span>, <span class="at">D =</span> <span class="dv">2</span>, <span class="at">A =</span> <span class="dv">3</span>),</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">y =</span> <span class="fu">c</span>(<span class="at">B =</span> <span class="dv">3</span>, <span class="at">C =</span> <span class="dv">2</span>, <span class="at">D =</span> <span class="dv">1</span>, <span class="at">A =</span> <span class="dv">3</span>))</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the DAG</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdag</span>(dag7_confound_ggdag) <span class="sc">+</span> <span class="fu">theme_dag_blank</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="d-seperation-1_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="beispiel-2" class="level3">
+<h3 class="anchored" data-anchor-id="beispiel-2">Beispiel</h3>
+<p><strong>Neue Variable S=Schäden am Auto</strong> Die Variable “Schäden am Auto” ist ein Nachfolger des Colliders “Unfall”. D und A sind d-seperated gegeben U, aber d-connected, gegeben S.</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggdag)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>dag7_confound_ggdag <span class="ot">&lt;-</span> <span class="fu">dagify</span>(</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a> C <span class="sc">~</span> A <span class="sc">+</span> B,</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a> D <span class="sc">~</span>C,</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a> <span class="at">coords =</span> <span class="fu">list</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="at">B =</span> <span class="dv">1</span>, <span class="at">C =</span> <span class="dv">2</span>, <span class="at">D =</span> <span class="dv">2</span>, <span class="at">A =</span> <span class="dv">3</span>),</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">y =</span> <span class="fu">c</span>(<span class="at">B =</span> <span class="dv">3</span>, <span class="at">C =</span> <span class="dv">2</span>, <span class="at">D =</span> <span class="dv">1</span>, <span class="at">A =</span> <span class="dv">3</span>))</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>dag8_confound_ggdag <span class="ot">&lt;-</span> <span class="fu">dagify</span>(</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a> U <span class="sc">~</span> D <span class="sc">+</span> A,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a> S <span class="sc">~</span> U,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a> <span class="at">coords =</span> <span class="fu">list</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="at">D =</span> <span class="dv">1</span>, <span class="at">U =</span> <span class="dv">2</span>, <span class="at">S =</span> <span class="dv">2</span>, <span class="at">A =</span> <span class="dv">3</span>),</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">y =</span> <span class="fu">c</span>(<span class="at">D =</span> <span class="dv">3</span>, <span class="at">U =</span> <span class="dv">2</span>, <span class="at">S =</span> <span class="dv">1</span>, <span class="at">A =</span> <span class="dv">3</span>))</span>
 <span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the DAG</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdag</span>(dag7_confound_ggdag) <span class="sc">+</span> <span class="fu">theme_dag_blank</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdag</span>(dag8_confound_ggdag) <span class="sc">+</span> <span class="fu">theme_dag_blank</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="d-seperation-1_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
 </section>
-<section id="example" class="level2">
-<h2 class="anchored" data-anchor-id="example">Example</h2>
+<section id="excercise" class="level2">
+<h2 class="anchored" data-anchor-id="excercise">Excercise</h2>
 <p>What sets of variables d-seperate the nonadjacent nodes in this DAG?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>dag8_confound_ggdag <span class="ot">&lt;-</span> <span class="fu">dagify</span>(</span>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>dag9_confound_ggdag <span class="ot">&lt;-</span> <span class="fu">dagify</span>(</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a> X <span class="sc">~</span> Z1 <span class="sc">+</span> Z3,</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a> Z3 <span class="sc">~</span> Z1 <span class="sc">+</span> Z2,</span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a> W <span class="sc">~</span> X,</span>
@@ -289,7 +301,7 @@ Coefficients:
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">y =</span> <span class="fu">c</span>(<span class="at">X =</span> <span class="dv">1</span>, <span class="at">Z1 =</span> <span class="dv">3</span>, <span class="at">Z3 =</span> <span class="dv">2</span>, <span class="at">W =</span> <span class="dv">1</span>, <span class="at">Z2 =</span> <span class="dv">3</span>, <span class="at">Y =</span> <span class="dv">1</span>))</span>
 <span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the DAG</span></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdag</span>(dag8_confound_ggdag) <span class="sc">+</span> <span class="fu">theme_dag_blank</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdag</span>(dag9_confound_ggdag) <span class="sc">+</span> <span class="fu">theme_dag_blank</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="d-seperation-1_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
 </div>
