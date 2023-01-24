@@ -10,7 +10,7 @@ editor: visual
 
 Two variables are said to be d-separated if all paths between them are blocked (otherwise they are d-connected). Two sets of variables are said to be d-separated if each variable in the first set is d-separated from every variable in the second set.
 
-## Rules: When is a path blocked?
+## Rules: When is a path open or blocked?
 
 **1. If there are no variables being conditioned on, a path is blocked if and only if two arrowheads on the path collide at some variable on the path.**
 
@@ -47,7 +47,7 @@ n <- 10000
 
 D <- rnorm(n, 0, 1)
 A <- rbinom(n, 1, 0.05)
-U <- 0.01 + 0.3*A + 0.1 * D + rnorm(n, 0, 1)
+U <- 0.01 + 0.3*A - 0.1 * D + rnorm(n, 0, 1)
 
 lm(U ~ A + D)
 ```
@@ -68,25 +68,24 @@ ggdag(dag3_confound_ggdag) + theme_dag_blank()
 
 ### Beispiel:
 
-**B = Blutucker**\
-**M = Magensäure**\
-**H = Hunger**
+**F=Feuer**\
+**R=Rauch**\
+**A=Alarm**
 
-Der Blutzuckerspiegel beeinflusst die Übersäuerung im Magen, welche wiederum ein Hungergefühl verursacht. Wenn wir den Pfad zwischen dem Blutzuckerspiegel und dem Hunger unter der Bedingung von einer Magenübersäuerung betrachten, ist dieser Pfad blockiert. Wir können keine Assoziation zwischen dem Blutzuckerspiegel und Hunger feststellen.
+Feuer und Alarm sind unabhängig, bedingt auf Rauch.
 
 ```{r}
 dag4_confound_ggdag <- dagify(
-  H ~ M,
-  M ~ B,
-   coords = list(x = c(B = 1, M = 2, H = 3),
-                y = c(B = 1, M = 1, H = 1))
+  A ~ R,
+  R ~ F,
+   coords = list(x = c(F = 1, R = 2, A = 3),
+                y = c(F = 1, R = 1, A = 1))
 )
 # Plot the DAG
 ggdag(dag4_confound_ggdag) + theme_dag_blank()
 ```
 
-**3. A collider that has been conditioned on does not block a path.**
-If we condition on C, the path between A and B is not blocked. They are d-connected.
+**3. A collider that has been conditioned on does not block a path.** If we condition on C, the path between A and B is not blocked. They are d-connected.
 
 ```{r}
 dag5_confound_ggdag <- dagify(
@@ -123,8 +122,8 @@ ggdag(dag7_confound_ggdag) + theme_dag_blank()
 
 ### Beispiel
 
-**Neue Variable S=Schäden am Auto**  
-Die Variable "Schäden am Auto" ist ein Nachfolger des Colliders "Unfall". D und A sind d-seperated gegeben U, aber d-connected, gegeben S.
+**Neue Variable S=Schäden am Auto**\
+Die Variable "Schäden am Auto" ist ein Nachfolger des Colliders "Unfall". D und A waren d-seperated durch Collider U, aber sind d-connected, sobald wir auf S bedingen.
 
 ```{r}
 library(ggdag)
@@ -158,7 +157,7 @@ ggdag(dag9_confound_ggdag) + theme_dag_blank()
 Z1 ⊥⊥ Z2\
 X ⊥⊥ Y \| W, Z3, Z1\
 oder\
-W ⊥⊥ Y \| Z1, Z2\
+X ⊥⊥ Y \| W, Z2, Z3\
 W ⊥⊥ Z2 \| Z1, Z3\
 W ⊥⊥ Z2 \| X\
 W ⊥⊥ Z3 \| X\

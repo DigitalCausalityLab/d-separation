@@ -123,15 +123,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
+<section id="d-separation" class="level1">
+<h1>D-separation</h1>
 <section id="definition" class="level2">
 <h2 class="anchored" data-anchor-id="definition">Definition</h2>
 <p>Two variables are said to be d-separated if all paths between them are blocked (otherwise they are d-connected). Two sets of variables are said to be d-separated if each variable in the first set is d-separated from every variable in the second set.</p>
 </section>
-<section id="rules-when-is-a-path-blocked" class="level2">
-<h2 class="anchored" data-anchor-id="rules-when-is-a-path-blocked">Rules: When is a path blocked?</h2>
-<ol type="1">
-<li>If there are no variables being conditioned on, a path is blocked if and only if two arrowheads on the path collide at somevariable on the path.</li>
-</ol>
+<section id="rules-when-is-a-path-open-or-blocked" class="level2">
+<h2 class="anchored" data-anchor-id="rules-when-is-a-path-open-or-blocked">Rules: When is a path open or blocked?</h2>
+<p><strong>1. If there are no variables being conditioned on, a path is blocked if and only if two arrowheads on the path collide at some variable on the path.</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggdag)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -177,7 +177,7 @@ Attache Paket: 'ggdag'</code></pre>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">1</span>)</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.05</span>)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>U <span class="ot">&lt;-</span> <span class="fl">0.01</span> <span class="sc">+</span> <span class="fl">0.3</span><span class="sc">*</span>A <span class="sc">+</span> <span class="fl">0.1</span> <span class="sc">*</span> D <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>U <span class="ot">&lt;-</span> <span class="fl">0.01</span> <span class="sc">+</span> <span class="fl">0.3</span><span class="sc">*</span>A <span class="sc">-</span> <span class="fl">0.1</span> <span class="sc">*</span> D <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">1</span>)</span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(U <span class="sc">~</span> A <span class="sc">+</span> D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -187,12 +187,11 @@ lm(formula = U ~ A + D)
 
 Coefficients:
 (Intercept)            A            D  
-   0.004821     0.318218     0.109178  </code></pre>
+   0.006509     0.378160    -0.100633  </code></pre>
 </div>
 </div>
-<ol start="2" type="1">
-<li>Any path that contains a noncollider that has been conditioned on is blocked. The path between A and C is blocked, conditioning on B.</li>
-</ol>
+<p><strong>2. Any path that contains a noncollider that has been conditioned on is blocked.</strong><br>
+The path between A and C is blocked, conditioning on B.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>dag3_confound_ggdag <span class="ot">&lt;-</span> <span class="fu">dagify</span>(</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>C <span class="sc">~</span> B,</span>
@@ -209,16 +208,16 @@ Coefficients:
 </section>
 <section id="beispiel-1" class="level3">
 <h3 class="anchored" data-anchor-id="beispiel-1">Beispiel:</h3>
-<p><strong>B = Blutucker</strong><br>
-<strong>M = Magensäure</strong><br>
-<strong>H = Hunger</strong></p>
-<p>Der Blutzuckerspiegel beeinflusst die Übersäuerung im Magen, welche wiederum ein Hungergefühl verursacht. Wenn wir den Pfad zwischen dem Blutzuckerspiegel und dem Hunger unter der Bedingung von einer Magenübersäuerung betrachten, ist dieser Pfad blockiert. Wir können keine Assoziation zwischen dem Blutzuckerspiegel und Hunger feststellen.</p>
+<p><strong>F=Feuer</strong><br>
+<strong>R=Rauch</strong><br>
+<strong>A=Alarm</strong></p>
+<p>Feuer und Alarm sind unabhängig, bedingt auf Rauch.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dag4_confound_ggdag <span class="ot">&lt;-</span> <span class="fu">dagify</span>(</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  H <span class="sc">~</span> M,</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  M <span class="sc">~</span> B,</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>   <span class="at">coords =</span> <span class="fu">list</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="at">B =</span> <span class="dv">1</span>, <span class="at">M =</span> <span class="dv">2</span>, <span class="at">H =</span> <span class="dv">3</span>),</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">y =</span> <span class="fu">c</span>(<span class="at">B =</span> <span class="dv">1</span>, <span class="at">M =</span> <span class="dv">1</span>, <span class="at">H =</span> <span class="dv">1</span>))</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  A <span class="sc">~</span> R,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  R <span class="sc">~</span> F,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>   <span class="at">coords =</span> <span class="fu">list</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="at">F =</span> <span class="dv">1</span>, <span class="at">R =</span> <span class="dv">2</span>, <span class="at">A =</span> <span class="dv">3</span>),</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">y =</span> <span class="fu">c</span>(<span class="at">F =</span> <span class="dv">1</span>, <span class="at">R =</span> <span class="dv">1</span>, <span class="at">A =</span> <span class="dv">1</span>))</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the DAG</span></span>
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdag</span>(dag4_confound_ggdag) <span class="sc">+</span> <span class="fu">theme_dag_blank</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -226,10 +225,7 @@ Coefficients:
 <p><img src="d-seperation-1_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<ol start="3" type="1">
-<li><p>A collider that has been conditioned on does not block a path.</p>
-<p>If we condition on C, the path between A and B is not blocked. They are d-connected.</p></li>
-</ol>
+<p><strong>3. A collider that has been conditioned on does not block a path.</strong> If we condition on C, the path between A and B is not blocked. They are d-connected.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>dag5_confound_ggdag <span class="ot">&lt;-</span> <span class="fu">dagify</span>(</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a> C <span class="sc">~</span> A <span class="sc">+</span> B</span>
@@ -251,9 +247,7 @@ Coefficients:
 <p><img src="d-seperation-1_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<ol start="4" type="1">
-<li>A collider that has a descendant that has been conditioned on does not block a path.</li>
-</ol>
+<p><strong>4. A collider that has a descendant that has been conditioned on does not block a path.</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggdag)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>dag7_confound_ggdag <span class="ot">&lt;-</span> <span class="fu">dagify</span>(</span>
@@ -271,7 +265,8 @@ Coefficients:
 </section>
 <section id="beispiel-2" class="level3">
 <h3 class="anchored" data-anchor-id="beispiel-2">Beispiel</h3>
-<p><strong>Neue Variable S=Schäden am Auto</strong> Die Variable “Schäden am Auto” ist ein Nachfolger des Colliders “Unfall”. D und A sind d-seperated gegeben U, aber d-connected, gegeben S.</p>
+<p><strong>Neue Variable S=Schäden am Auto</strong><br>
+Die Variable “Schäden am Auto” ist ein Nachfolger des Colliders “Unfall”. D und A waren d-seperated durch Collider U, aber sind d-connected, sobald wir auf S bedingen.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggdag)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>dag8_confound_ggdag <span class="ot">&lt;-</span> <span class="fu">dagify</span>(</span>
@@ -309,7 +304,7 @@ Coefficients:
 <p>Z1 ⊥⊥ Z2<br>
 X ⊥⊥ Y | W, Z3, Z1<br>
 oder<br>
-W ⊥⊥ Y | Z1, Z2<br>
+X ⊥⊥ Y | W, Z2, Z3<br>
 W ⊥⊥ Z2 | Z1, Z3<br>
 W ⊥⊥ Z2 | X<br>
 W ⊥⊥ Z3 | X<br>
@@ -317,6 +312,7 @@ W ⊥⊥ Z1 | X<br>
 Z1 ⊥⊥ Y |Z3, X, Z2<br>
 oder<br>
 Z1 ⊥⊥ Y | Z3, W, Z2</p>
+</section>
 </section>
 
 </main>
