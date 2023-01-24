@@ -37,6 +37,19 @@ dag2_confound_ggdag <- dagify(
 ggdag(dag2_confound_ggdag, layout = "circle") + theme_dag_blank()
 ```
 
+### Regression:
+
+```{r}
+# set number of observations
+n <- 10000
+
+D <- rnorm(n, 0, 1)
+A <- rbinom(n, 1, 0.05)
+U <- 0.01 + 0.3*A + 0.1 * D + rnorm(n, 0, 1)
+
+lm(U ~ A + D)
+```
+
 2.  Any path that contains a noncollider that has been conditioned on is blocked. The path between A and C is blocked, conditioning on B.
 
 ```{r}
@@ -69,7 +82,9 @@ dag4_confound_ggdag <- dagify(
 ggdag(dag4_confound_ggdag) + theme_dag_blank()
 ```
 
-3.  A collider that has been conditioned on does not block a path. If we condition on C, the path between A and B is not blocked. They are d-connected.
+3.  A collider that has been conditioned on does not block a path.
+
+    If we condition on C, the path between A and B is not blocked. They are d-connected.
 
 ```{r}
 dag5_confound_ggdag <- dagify(
@@ -107,6 +122,7 @@ ggdag(dag7_confound_ggdag) + theme_dag_blank()
 ## Example
 
 What sets of variables d-seperate the nonadjacent nodes in this DAG?
+
 ```{r}
 dag8_confound_ggdag <- dagify(
  X ~ Z1 + Z3,
@@ -122,7 +138,8 @@ ggdag(dag8_confound_ggdag) + theme_dag_blank()
 
 Z1 ⊥⊥ Z2\
 X ⊥⊥ Y \| W, Z3, Z1\
-oder W ⊥⊥ Y \| Z1, Z2\
+oder\
+W ⊥⊥ Y \| Z1, Z2\
 W ⊥⊥ Z2 \| Z1, Z3\
 W ⊥⊥ Z2 \| X\
 W ⊥⊥ Z3 \| X\
