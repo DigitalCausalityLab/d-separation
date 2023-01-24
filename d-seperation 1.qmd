@@ -4,13 +4,15 @@ format: html
 editor: visual
 ---
 
+# D-separation
+
 ## Definition
 
 Two variables are said to be d-separated if all paths between them are blocked (otherwise they are d-connected). Two sets of variables are said to be d-separated if each variable in the first set is d-separated from every variable in the second set.
 
 ## Rules: When is a path blocked?
 
-1.  If there are no variables being conditioned on, a path is blocked if and only if two arrowheads on the path collide at somevariable on the path.
+**1. If there are no variables being conditioned on, a path is blocked if and only if two arrowheads on the path collide at some variable on the path.**
 
 ```{r}
 library(ggdag)
@@ -37,7 +39,21 @@ dag2_confound_ggdag <- dagify(
 ggdag(dag2_confound_ggdag, layout = "circle") + theme_dag_blank()
 ```
 
-2.  Any path that contains a noncollider that has been conditioned on is blocked. The path between A and C is blocked, conditioning on B.
+### Regression:
+
+```{r}
+# set number of observations
+n <- 10000
+
+D <- rnorm(n, 0, 1)
+A <- rbinom(n, 1, 0.05)
+U <- 0.01 + 0.3*A + 0.1 * D + rnorm(n, 0, 1)
+
+lm(U ~ A + D)
+```
+
+**2. Any path that contains a noncollider that has been conditioned on is blocked.**\
+The path between A and C is blocked, conditioning on B.
 
 ```{r}
 dag3_confound_ggdag <- dagify(
@@ -69,7 +85,8 @@ dag4_confound_ggdag <- dagify(
 ggdag(dag4_confound_ggdag) + theme_dag_blank()
 ```
 
-3.  A collider that has been conditioned on does not block a path. If we condition on C, the path between A and B is not blocked. They are d-connected.
+**3. A collider that has been conditioned on does not block a path.**
+If we condition on C, the path between A and B is not blocked. They are d-connected.
 
 ```{r}
 dag5_confound_ggdag <- dagify(
@@ -90,7 +107,7 @@ ggdag(dag6_confound_ggdag, layout = "circle") + theme_dag_blank()
 
 ```
 
-4.  A collider that has a descendant that has been conditioned on does not block a path.
+**4. A collider that has a descendant that has been conditioned on does not block a path.**
 
 ```{r}
 library(ggdag)
@@ -104,11 +121,29 @@ dag7_confound_ggdag <- dagify(
 ggdag(dag7_confound_ggdag) + theme_dag_blank()
 ```
 
-## Example
+### Beispiel
+
+**Neue Variable S=Schäden am Auto**  
+Die Variable "Schäden am Auto" ist ein Nachfolger des Colliders "Unfall". D und A sind d-seperated gegeben U, aber d-connected, gegeben S.
+
+```{r}
+library(ggdag)
+dag8_confound_ggdag <- dagify(
+ U ~ D + A,
+ S ~ U,
+ coords = list(x = c(D = 1, U = 2, S = 2, A = 3),
+                y = c(D = 3, U = 2, S = 1, A = 3))
+)
+# Plot the DAG
+ggdag(dag8_confound_ggdag) + theme_dag_blank()
+```
+
+## Excercise
 
 What sets of variables d-seperate the nonadjacent nodes in this DAG?
+
 ```{r}
-dag8_confound_ggdag <- dagify(
+dag9_confound_ggdag <- dagify(
  X ~ Z1 + Z3,
  Z3 ~ Z1 + Z2,
  W ~ X,
@@ -117,12 +152,13 @@ dag8_confound_ggdag <- dagify(
                 y = c(X = 1, Z1 = 3, Z3 = 2, W = 1, Z2 = 3, Y = 1))
 )
 # Plot the DAG
-ggdag(dag8_confound_ggdag) + theme_dag_blank()
+ggdag(dag9_confound_ggdag) + theme_dag_blank()
 ```
 
 Z1 ⊥⊥ Z2\
 X ⊥⊥ Y \| W, Z3, Z1\
-oder W ⊥⊥ Y \| Z1, Z2\
+oder\
+W ⊥⊥ Y \| Z1, Z2\
 W ⊥⊥ Z2 \| Z1, Z3\
 W ⊥⊥ Z2 \| X\
 W ⊥⊥ Z3 \| X\
