@@ -86,16 +86,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 
 
-<script src="d-seperation 1_files/libs/clipboard/clipboard.min.js"></script>
-<script src="d-seperation 1_files/libs/quarto-html/quarto.js"></script>
-<script src="d-seperation 1_files/libs/quarto-html/popper.min.js"></script>
-<script src="d-seperation 1_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="d-seperation 1_files/libs/quarto-html/anchor.min.js"></script>
-<link href="d-seperation 1_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="d-seperation 1_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="d-seperation 1_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="d-seperation 1_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="d-seperation 1_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="d-seperation_files/libs/clipboard/clipboard.min.js"></script>
+<script src="d-seperation_files/libs/quarto-html/quarto.js"></script>
+<script src="d-seperation_files/libs/quarto-html/popper.min.js"></script>
+<script src="d-seperation_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="d-seperation_files/libs/quarto-html/anchor.min.js"></script>
+<link href="d-seperation_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="d-seperation_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="d-seperation_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="d-seperation_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="d-seperation_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
@@ -136,10 +136,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggdag)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
-Attache Paket: 'ggdag'</code></pre>
+Attaching package: 'ggdag'</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Das folgende Objekt ist maskiert 'package:stats':
+<pre><code>The following object is masked from 'package:stats':
 
     filter</code></pre>
 </div>
@@ -149,7 +149,7 @@ Attache Paket: 'ggdag'</code></pre>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the DAG</span></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdag</span>(dag1_confound_ggdag) <span class="sc">+</span> <span class="fu">theme_dag_blank</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="d-seperation-1_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+<p><img src="d-seperation_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <section id="beispiel" class="level3">
@@ -165,7 +165,7 @@ Attache Paket: 'ggdag'</code></pre>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the DAG</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdag</span>(dag2_confound_ggdag, <span class="at">layout =</span> <span class="st">"circle"</span>) <span class="sc">+</span> <span class="fu">theme_dag_blank</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="d-seperation-1_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+<p><img src="d-seperation_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -187,7 +187,7 @@ lm(formula = U ~ A + D)
 
 Coefficients:
 (Intercept)            A            D  
-   0.006509     0.378160    -0.100633  </code></pre>
+    0.02153      0.29753     -0.09725  </code></pre>
 </div>
 </div>
 <p><strong>2. Any path that contains a noncollider that has been conditioned on is blocked.</strong><br>
@@ -202,7 +202,7 @@ The path between A and C is blocked, conditioning on B.</p>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the DAG</span></span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdag</span>(dag3_confound_ggdag) <span class="sc">+</span> <span class="fu">theme_dag_blank</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="d-seperation-1_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<p><img src="d-seperation_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -222,7 +222,7 @@ The path between A and C is blocked, conditioning on B.</p>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the DAG</span></span>
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdag</span>(dag4_confound_ggdag) <span class="sc">+</span> <span class="fu">theme_dag_blank</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="d-seperation-1_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+<p><img src="d-seperation_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p><strong>3. A collider that has been conditioned on does not block a path.</strong> If we condition on C, the path between A and B is not blocked. They are d-connected.</p>
@@ -233,7 +233,7 @@ The path between A and C is blocked, conditioning on B.</p>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the DAG</span></span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdag</span>(dag5_confound_ggdag, <span class="at">layout =</span> <span class="st">"circle"</span>) <span class="sc">+</span> <span class="fu">theme_dag_blank</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="d-seperation-1_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+<p><img src="d-seperation_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Durch die Konditionierung auf “Unfall” ist der Pfad zwischen Drivingskills und Alkohol nicht mehr blockiert.</p>
@@ -244,7 +244,7 @@ The path between A and C is blocked, conditioning on B.</p>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the DAG</span></span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdag</span>(dag6_confound_ggdag, <span class="at">layout =</span> <span class="st">"circle"</span>) <span class="sc">+</span> <span class="fu">theme_dag_blank</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="d-seperation-1_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+<p><img src="d-seperation_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p><strong>4. A collider that has a descendant that has been conditioned on does not block a path.</strong></p>
@@ -259,7 +259,7 @@ The path between A and C is blocked, conditioning on B.</p>
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the DAG</span></span>
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdag</span>(dag7_confound_ggdag) <span class="sc">+</span> <span class="fu">theme_dag_blank</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="d-seperation-1_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+<p><img src="d-seperation_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -278,7 +278,7 @@ Die Variable “Schäden am Auto” ist ein Nachfolger des Colliders “Unfall�
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the DAG</span></span>
 <span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdag</span>(dag8_confound_ggdag) <span class="sc">+</span> <span class="fu">theme_dag_blank</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="d-seperation-1_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+<p><img src="d-seperation_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -298,14 +298,14 @@ Die Variable “Schäden am Auto” ist ein Nachfolger des Colliders “Unfall�
 <span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the DAG</span></span>
 <span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdag</span>(dag9_confound_ggdag) <span class="sc">+</span> <span class="fu">theme_dag_blank</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="d-seperation-1_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+<p><img src="d-seperation_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Z1 ⊥⊥ Z2<br>
 X ⊥⊥ Y | W, Z3, Z1<br>
 oder<br>
 X ⊥⊥ Y | W, Z2, Z3<br>
-X ⊥⊥ Z2 | Z1, Z3<br>  
+X ⊥⊥ Y | Z1, Z3<br>
 W ⊥⊥ Z2 | Z1, Z3<br>
 W ⊥⊥ Z2 | X<br>
 W ⊥⊥ Z3 | X<br>
